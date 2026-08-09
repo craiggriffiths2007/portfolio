@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Craig Griffiths - .NET Software Developer portfolio" />
+  <title>Craig Griffiths | .NET Software Developer</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a class="brand" href="#top">Craig Griffiths</a>
+      <nav aria-label="Main navigation">
+        <a href="#about">About</a>
+        <a href="#skills">Skills</a>
+        <a href="#projects">Projects</a>
+        <a href="#experience">Experience</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="container hero-content">
+        <p class="eyebrow">.NET Software Developer</p>
+        <h1>Building practical software for web, desktop and mobile.</h1>
+        <p class="lead">
+          I’m Craig Griffiths, a software developer with extensive experience across C#, .NET,
+          ASP.NET, WPF, .NET MAUI and SQL Server.
+        </p>
+        <div class="actions">
+          <a class="button primary" href="#projects">View my work</a>
+          <a class="button" href="https://github.com/craiggriffiths2007" target="_blank" rel="noreferrer">GitHub</a>
+          <a class="button" href="https://www.linkedin.com/in/craig-griffiths-4142313aa/" target="_blank" rel="noreferrer">LinkedIn</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="about" class="section">
+      <div class="container narrow">
+        <h2>About me</h2>
+        <p>
+          I’m a UK-based software developer with more than 20 years of commercial development experience.
+          I started with C and C++, later moving into C# and the .NET ecosystem. My recent work focuses on
+          modern .NET applications spanning ASP.NET Core, REST APIs, WPF desktop software and .NET MAUI mobile apps.
+        </p>
+      </div>
+    </section>
+
+    <section id="skills" class="section alt">
+      <div class="container">
+        <h2>Core skills</h2>
+        <div class="cards skills-grid">
+          <article class="card"><h3>Languages</h3><p>C#, C++, C, JavaScript, HTML, CSS</p></article>
+          <article class="card"><h3>.NET</h3><p>.NET 10, ASP.NET Core MVC, Web API, Razor, WPF, .NET MAUI, XAML</p></article>
+          <article class="card"><h3>Data</h3><p>SQL Server, Entity Framework Core, LINQ, SQLite</p></article>
+          <article class="card"><h3>Tools</h3><p>Visual Studio, Git, GitHub, Azure DevOps, CI/CD</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="projects" class="section">
+      <div class="container">
+        <h2>Projects</h2>
+        <div class="cards project-grid">
+          <article class="card project-card">
+            <span class="tag">.NET MAUI · ASP.NET Core</span>
+            <h3>Glass Ops</h3>
+            <p>
+              A mobile and server platform for the glazing repair industry, supporting surveyors and fitters
+              with jobs, photographs, signatures, health and safety checks, drawings and back-office integration.
+            </p>
+          </article>
+          <article class="card project-card">
+            <span class="tag">WPF · EF Core</span>
+            <h3>Property Survey Back Office</h3>
+            <p>
+              A Windows desktop application sharing a SQL Server database with an ASP.NET Core web application,
+              including diary views, job management and rich job instructions.
+            </p>
+          </article>
+          <article class="card project-card">
+            <span class="tag">ASP.NET Core · SQL Server</span>
+            <h3>Property Survey Service</h3>
+            <p>
+              An ASP.NET Core MVC and API backend for managing jobs, survey information, users and mobile-app data.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="experience" class="section alt">
+      <div class="container narrow">
+        <h2>Experience</h2>
+        <div class="timeline">
+          <article>
+            <h3>Software Engineer · Club Systems International Ltd</h3>
+            <p class="muted">October 2022 – May 2024</p>
+            <p>Worked on ClubV1 and HowDidiDo, developing and maintaining large-scale golf administration and handicap systems using modern .NET technologies and Azure DevOps.</p>
+          </article>
+          <article>
+            <h3>Software Engineer · Martindale's Limited</h3>
+            <p class="muted">August 2011 – November 2019</p>
+            <p>Built software for manufacturing and field operations, including C# and Xamarin mobile applications and integrations with 4D database systems.</p>
+          </article>
+          <article>
+            <h3>Software Engineer · Tailored Limited</h3>
+            <p class="muted">April 2005 – August 2011</p>
+            <p>Developed eCommerce systems, web applications and native Windows Mobile software using C++, MFC, JavaScript and database-backed services.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="section contact-section">
+      <div class="container narrow">
+        <h2>Get in touch</h2>
+        <p>If you’d like to discuss a software development opportunity or one of my projects, you can find me on GitHub or LinkedIn.</p>
+        <div class="actions center">
+          <a class="button primary" href="https://github.com/craiggriffiths2007" target="_blank" rel="noreferrer">GitHub profile</a>
+          <a class="button" href="https://www.linkedin.com/in/craig-griffiths-4142313aa/" target="_blank" rel="noreferrer">LinkedIn profile</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">© <span id="year"></span> Craig Griffiths</div>
+  </footer>
+
+  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+</body>
+</html>
