@@ -281,11 +281,6 @@ nav a:hover {
     transform: translateX(3px);
 }
 
-.casino-button {
-    border-color: transparent;
-    background: linear-gradient(135deg, #9b6cf0, var(--casino-dark));
-    color: white;
-}
 
 /* SECTIONS */
 
