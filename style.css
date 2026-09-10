@@ -91,7 +91,7 @@ nav a:hover {
 .hero {
     position: relative;
     overflow: hidden;
-    min-height: 660px;
+    min-height: 550px;
     display: flex;
     align-items: center;
     isolation: isolate;
@@ -261,7 +261,7 @@ nav a:hover {
 /* SECTIONS */
 
 .section {
-    padding: 90px 0;
+    padding: 0px 0;
 }
 
 .section.alt {
