@@ -41,58 +41,64 @@
 
     const particleCount = 55;
 
-    const positions = [];
+    const positions = new Float32Array(
+        particleCount * 3
+    );
+
     const basePositions = [];
-    const points = [];
 
     for (let i = 0; i < particleCount; i++) {
 
-        // Keep most of the activity to the right
-        const x = THREE.MathUtils.randFloat(1.2, 8.5);
+        // Spread particles across the whole hero.
+        const x = THREE.MathUtils.randFloat(-8.0, 8.5);
         const y = THREE.MathUtils.randFloat(-3.4, 3.4);
         const z = THREE.MathUtils.randFloat(-2.8, 1.1);
 
-        positions.push(x, y, z);
+        positions[i * 3] = x;
+        positions[i * 3 + 1] = y;
+        positions[i * 3 + 2] = z;
 
         basePositions.push({
-            x: x,
-            y: y,
-            z: z,
+            x,
+            y,
+            z,
+
             phaseX: Math.random() * Math.PI * 2,
             phaseY: Math.random() * Math.PI * 2,
             phaseZ: Math.random() * Math.PI * 2,
+
             speedX: THREE.MathUtils.randFloat(0.10, 0.28),
             speedY: THREE.MathUtils.randFloat(0.12, 0.32),
             speedZ: THREE.MathUtils.randFloat(0.08, 0.20),
-            amountX: THREE.MathUtils.randFloat(0.08, 0.28),
-            amountY: THREE.MathUtils.randFloat(0.10, 0.34),
-            amountZ: THREE.MathUtils.randFloat(0.04, 0.16)
-        });
 
-        points.push(
-            new THREE.Vector3(x, y, z)
-        );
+            amountX: THREE.MathUtils.randFloat(0.08, 0.25),
+            amountY: THREE.MathUtils.randFloat(0.10, 0.30),
+            amountZ: THREE.MathUtils.randFloat(0.04, 0.14)
+        });
     }
+
 
     const particleGeometry =
         new THREE.BufferGeometry();
 
     particleGeometry.setAttribute(
         "position",
-        new THREE.Float32BufferAttribute(
+        new THREE.BufferAttribute(
             positions,
             3
         )
     );
+
 
     const particleMaterial =
         new THREE.PointsMaterial({
             color: 0xffffff,
             size: 0.06,
             transparent: true,
-            opacity: 0.82,
+            opacity: 0.85,
             depthWrite: false
         });
+
 
     const particles =
         new THREE.Points(
@@ -100,57 +106,79 @@
             particleMaterial
         );
 
-    scene.add(particles);
-
 
     // --------------------------------------------------
-    // STATIC CONNECTION LINES
+    // WORK OUT WHICH PARTICLES ARE CONNECTED
     // --------------------------------------------------
 
-    const linePositions = [];
+    const connections = [];
 
-    const maxDistance = 1.55;
+    const maxDistance = 2.2;
 
-    for (let i = 0; i < points.length; i++) {
+    for (let i = 0; i < particleCount; i++) {
 
-        for (let j = i + 1; j < points.length; j++) {
+        for (let j = i + 1; j < particleCount; j++) {
+
+            const dx =
+                basePositions[i].x -
+                basePositions[j].x;
+
+            const dy =
+                basePositions[i].y -
+                basePositions[j].y;
+
+            const dz =
+                basePositions[i].z -
+                basePositions[j].z;
 
             const distance =
-                points[i].distanceTo(points[j]);
+                Math.sqrt(
+                    dx * dx +
+                    dy * dy +
+                    dz * dz
+                );
 
             if (distance < maxDistance) {
 
-                linePositions.push(
-                    points[i].x,
-                    points[i].y,
-                    points[i].z,
-
-                    points[j].x,
-                    points[j].y,
-                    points[j].z
-                );
+                connections.push({
+                    a: i,
+                    b: j
+                });
             }
         }
     }
+
+
+    // --------------------------------------------------
+    // LINE GEOMETRY
+    // --------------------------------------------------
+
+    const linePositions =
+        new Float32Array(
+            connections.length * 6
+        );
+
 
     const lineGeometry =
         new THREE.BufferGeometry();
 
     lineGeometry.setAttribute(
         "position",
-        new THREE.Float32BufferAttribute(
+        new THREE.BufferAttribute(
             linePositions,
             3
         )
     );
 
+
     const lineMaterial =
         new THREE.LineBasicMaterial({
-            color: 0xb9f3ff,
+            color: 0xabffdf,
             transparent: true,
-            opacity: 0.22,
+            opacity: 0.34,
             depthWrite: false
         });
+
 
     const lines =
         new THREE.LineSegments(
@@ -158,18 +186,13 @@
             lineMaterial
         );
 
-    scene.add(lines);
-
 
     // --------------------------------------------------
-    // OVERALL NETWORK GROUP
+    // NETWORK
     // --------------------------------------------------
 
     const network =
         new THREE.Group();
-
-    scene.remove(particles);
-    scene.remove(lines);
 
     network.add(lines);
     network.add(particles);
@@ -178,11 +201,12 @@
 
 
     // --------------------------------------------------
-    // RANDOM ORGANIC MOVEMENT
+    // ANIMATION
     // --------------------------------------------------
 
     const clock =
         new THREE.Clock();
+
 
     function animate() {
 
@@ -191,13 +215,20 @@
         const elapsed =
             clock.getElapsedTime();
 
-        const positionAttribute =
-            particleGeometry.attributes.position;
+
+        // ----------------------------------------------
+        // MOVE PARTICLES
+        // ----------------------------------------------
+
+        const particleArray =
+            particleGeometry.attributes.position.array;
+
 
         for (let i = 0; i < particleCount; i++) {
 
             const base =
                 basePositions[i];
+
 
             const x =
                 base.x +
@@ -206,12 +237,14 @@
                     base.phaseX
                 ) * base.amountX;
 
+
             const y =
                 base.y +
                 Math.sin(
                     elapsed * base.speedY +
                     base.phaseY
                 ) * base.amountY;
+
 
             const z =
                 base.z +
@@ -220,29 +253,86 @@
                     base.phaseZ
                 ) * base.amountZ;
 
-            positionAttribute.setXYZ(
-                i,
-                x,
-                y,
-                z
-            );
+
+            particleArray[i * 3] =
+                x;
+
+            particleArray[i * 3 + 1] =
+                y;
+
+            particleArray[i * 3 + 2] =
+                z;
         }
 
-        positionAttribute.needsUpdate = true;
+
+        particleGeometry.attributes.position.needsUpdate =
+            true;
 
 
-        // Slow overall drift as well
+        // ----------------------------------------------
+        // MOVE LINES WITH THEIR PARTICLES
+        // ----------------------------------------------
+
+        const lineArray =
+            lineGeometry.attributes.position.array;
+
+
+        for (let i = 0; i < connections.length; i++) {
+
+            const connection =
+                connections[i];
+
+            const a =
+                connection.a;
+
+            const b =
+                connection.b;
+
+
+            // Start of line
+
+            lineArray[i * 6] =
+                particleArray[a * 3];
+
+            lineArray[i * 6 + 1] =
+                particleArray[a * 3 + 1];
+
+            lineArray[i * 6 + 2] =
+                particleArray[a * 3 + 2];
+
+
+            // End of line
+
+            lineArray[i * 6 + 3] =
+                particleArray[b * 3];
+
+            lineArray[i * 6 + 4] =
+                particleArray[b * 3 + 1];
+
+            lineArray[i * 6 + 5] =
+                particleArray[b * 3 + 2];
+        }
+
+
+        lineGeometry.attributes.position.needsUpdate =
+            true;
+
+
+        // ----------------------------------------------
+        // SLOW RANDOM-LOOKING OVERALL DRIFT
+        // ----------------------------------------------
+
         network.rotation.y =
-            Math.sin(elapsed * 0.08) * 0.05;
+            Math.sin(elapsed * 0.08) * 0.02;
 
         network.rotation.x =
-            Math.cos(elapsed * 0.06) * 0.025;
+            Math.cos(elapsed * 0.06) * 0.01;
 
         network.position.y =
-            Math.sin(elapsed * 0.18) * 0.08;
+            Math.sin(elapsed * 0.17) * 0.03;
 
         network.position.x =
-            Math.cos(elapsed * 0.14) * 0.06;
+            Math.cos(elapsed * 0.13) * 0.02;
 
 
         renderer.render(
@@ -250,6 +340,7 @@
             camera
         );
     }
+
 
     animate();
 
@@ -269,16 +360,19 @@
         if (!width || !height)
             return;
 
+
         camera.aspect =
             width / height;
 
         camera.updateProjectionMatrix();
+
 
         renderer.setSize(
             width,
             height
         );
     }
+
 
     window.addEventListener(
         "resize",
