@@ -1,111 +1,83 @@
 (() => {
-
     const container = document.getElementById("hero-3d");
 
     if (!container || typeof THREE === "undefined")
         return;
 
+    const prefersReducedMotion =
+        window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    if (prefersReducedMotion)
+        return;
+
     const scene = new THREE.Scene();
 
     const camera = new THREE.PerspectiveCamera(
-        60,
-        container.clientWidth / container.clientHeight,
+        52,
+        container.clientWidth / Math.max(container.clientHeight, 1),
         0.1,
         100
     );
 
-    camera.position.z = 8;
+    camera.position.set(0, 0, 8.8);
 
     const renderer = new THREE.WebGLRenderer({
         alpha: true,
         antialias: true
     });
 
-    renderer.setPixelRatio(
-        Math.min(window.devicePixelRatio, 2)
-    );
-
-    renderer.setSize(
-        container.clientWidth,
-        container.clientHeight
-    );
-
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.6));
+    renderer.setSize(container.clientWidth, container.clientHeight);
     renderer.setClearColor(0x000000, 0);
 
     container.appendChild(renderer.domElement);
 
-
-    // PARTICLES
-
-    const particleCount = 90;
-
-    const positions = new Float32Array(
-        particleCount * 3
-    );
-
+    // A restrained foreground constellation which sits mainly on the right,
+    // complementing the static artwork rather than covering the headline.
+    const particleCount = 48;
+    const positions = [];
     const points = [];
 
     for (let i = 0; i < particleCount; i++) {
+        const x = THREE.MathUtils.randFloat(1.6, 8.3);
+        const y = THREE.MathUtils.randFloat(-3.3, 3.4);
+        const z = THREE.MathUtils.randFloat(-2.5, 1.0);
 
-        const x = (Math.random() - 0.5) * 16;
-        const y = (Math.random() - 0.5) * 8;
-        const z = (Math.random() - 0.5) * 8;
-
-        positions[i * 3] = x;
-        positions[i * 3 + 1] = y;
-        positions[i * 3 + 2] = z;
-
-        points.push(
-            new THREE.Vector3(x, y, z)
-        );
+        positions.push(x, y, z);
+        points.push(new THREE.Vector3(x, y, z));
     }
 
-    const geometry = new THREE.BufferGeometry();
+    const particleGeometry = new THREE.BufferGeometry();
 
-    geometry.setAttribute(
+    particleGeometry.setAttribute(
         "position",
-        new THREE.BufferAttribute(
-            positions,
-            3
-        )
+        new THREE.Float32BufferAttribute(positions, 3)
     );
 
-    const material = new THREE.PointsMaterial({
-        color: 0x38bdf8,
-        size: 0.055,
+    const particleMaterial = new THREE.PointsMaterial({
+        color: 0xd7f7ff,
+        size: 0.045,
         transparent: true,
-        opacity: 0.8
+        opacity: 0.72,
+        depthWrite: false
     });
 
     const particles = new THREE.Points(
-        geometry,
-        material
+        particleGeometry,
+        particleMaterial
     );
 
-
-    // CONNECT NEARBY PARTICLES
-
     const linePositions = [];
-
-    const connectionDistance = 2.1;
+    const maxDistance = 1.55;
 
     for (let i = 0; i < points.length; i++) {
-
         for (let j = i + 1; j < points.length; j++) {
+            const distance = points[i].distanceTo(points[j]);
 
-            const distance =
-                points[i].distanceTo(points[j]);
-
-            if (distance < connectionDistance) {
-
+            if (distance < maxDistance) {
                 linePositions.push(
-                    points[i].x,
-                    points[i].y,
-                    points[i].z,
-
-                    points[j].x,
-                    points[j].y,
-                    points[j].z
+                    points[i].x, points[i].y, points[i].z,
+                    points[j].x, points[j].y, points[j].z
                 );
             }
         }
@@ -115,16 +87,14 @@
 
     lineGeometry.setAttribute(
         "position",
-        new THREE.Float32BufferAttribute(
-            linePositions,
-            3
-        )
+        new THREE.Float32BufferAttribute(linePositions, 3)
     );
 
     const lineMaterial = new THREE.LineBasicMaterial({
-        color: 0x2563eb,
+        color: 0x9ee9ff,
         transparent: true,
-        opacity: 0.12
+        opacity: 0.18,
+        depthWrite: false
     });
 
     const lines = new THREE.LineSegments(
@@ -132,86 +102,54 @@
         lineMaterial
     );
 
-
-    // GROUP EVERYTHING
-
     const network = new THREE.Group();
-
-    network.add(particles);
     network.add(lines);
-
+    network.add(particles);
     scene.add(network);
 
+    let pointerX = 0;
+    let pointerY = 0;
 
-    // MOUSE PARALLAX
+    window.addEventListener("pointermove", event => {
+        pointerX = event.clientX / window.innerWidth - 0.5;
+        pointerY = event.clientY / window.innerHeight - 0.5;
+    }, { passive: true });
 
-    let mouseX = 0;
-    let mouseY = 0;
-
-    window.addEventListener(
-        "mousemove",
-        event => {
-
-            mouseX =
-                event.clientX / window.innerWidth - 0.5;
-
-            mouseY =
-                event.clientY / window.innerHeight - 0.5;
-        }
-    );
-
-
-    // ANIMATION
+    const clock = new THREE.Clock();
 
     function animate() {
-
         requestAnimationFrame(animate);
 
-        network.rotation.y += 0.0007;
-        network.rotation.x += 0.00015;
+        const elapsed = clock.getElapsedTime();
+
+        network.position.y = Math.sin(elapsed * 0.18) * 0.055;
+        network.position.x = Math.cos(elapsed * 0.11) * 0.035;
+        network.rotation.y = Math.sin(elapsed * 0.09) * 0.025;
 
         camera.position.x +=
-            (mouseX * 0.7 - camera.position.x) *
-            0.025;
+            (pointerX * 0.20 - camera.position.x) * 0.018;
 
         camera.position.y +=
-            (-mouseY * 0.4 - camera.position.y) *
-            0.025;
+            (-pointerY * 0.12 - camera.position.y) * 0.018;
 
-        camera.lookAt(scene.position);
+        camera.lookAt(0.35, 0, 0);
 
-        renderer.render(
-            scene,
-            camera
-        );
+        renderer.render(scene, camera);
     }
 
     animate();
 
-
-    // RESIZE
-
     function resize() {
-
         const width = container.clientWidth;
         const height = container.clientHeight;
 
-        if (width === 0 || height === 0)
+        if (!width || !height)
             return;
 
         camera.aspect = width / height;
-
         camera.updateProjectionMatrix();
-
-        renderer.setSize(
-            width,
-            height
-        );
+        renderer.setSize(width, height);
     }
 
-    window.addEventListener(
-        "resize",
-        resize
-    );
-
+    window.addEventListener("resize", resize, { passive: true });
 })();
