@@ -1,10 +1,18 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "D:\\Source\\portfolio\\",
+  "WorkspaceRootPath": "D:\\Source\\craiggriffiths2007\\portfolio\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Source\\portfolio\\index.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Source\\craiggriffiths2007\\portfolio\\index.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:index.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Source\\craiggriffiths2007\\portfolio\\style.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:style.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Source\\craiggriffiths2007\\portfolio\\GlassOpsPrivicy.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:GlassOpsPrivicy.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     }
   ],
   "DocumentGroupContainers": [
@@ -14,7 +22,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Bookmark",
@@ -26,13 +34,39 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "style.css",
+              "DocumentMoniker": "D:\\Source\\craiggriffiths2007\\portfolio\\style.css",
+              "RelativeDocumentMoniker": "style.css",
+              "ToolTip": "D:\\Source\\craiggriffiths2007\\portfolio\\style.css",
+              "RelativeToolTip": "style.css",
+              "ViewState": "AgIAAMMBAAAAAAAAAAAUwPQBAAALAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2026-09-08T09:04:28.017Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "GlassOpsPrivicy.html",
+              "DocumentMoniker": "D:\\Source\\craiggriffiths2007\\portfolio\\GlassOpsPrivicy.html",
+              "RelativeDocumentMoniker": "GlassOpsPrivicy.html",
+              "ToolTip": "D:\\Source\\craiggriffiths2007\\portfolio\\GlassOpsPrivicy.html",
+              "RelativeToolTip": "GlassOpsPrivicy.html",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAABAAA0AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2026-09-08T07:25:00.118Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 0,
               "Title": "index.html",
-              "DocumentMoniker": "D:\\Source\\portfolio\\index.html",
+              "DocumentMoniker": "D:\\Source\\craiggriffiths2007\\portfolio\\index.html",
               "RelativeDocumentMoniker": "index.html",
-              "ToolTip": "D:\\Source\\portfolio\\index.html",
+              "ToolTip": "D:\\Source\\craiggriffiths2007\\portfolio\\index.html",
               "RelativeToolTip": "index.html",
-              "ViewState": "AgIAADkAAAAAAAAAAAAAAGAAAABNAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAOwBAAAHAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
               "WhenOpened": "2026-08-19T14:10:30.73Z",
               "EditorCaption": ""
